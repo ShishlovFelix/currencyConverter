@@ -24,15 +24,6 @@ const CurrenciesConvertor: React.FC<OwnProps> = (props) => {
   const [secondCurrency, setSecondCurrency] =
     React.useState<IConvertedCurrency>(currencies[1]);
 
-  const calculateData = (
-    value: number,
-    firstCurrency: number,
-    secondCurrency: number
-  ) => {
-    const result = (value * firstCurrency) / secondCurrency;
-    return result;
-  };
-
   const calculateFirstToSecond = (props: CalculatedData) => {
     if (props.currency) {
       const num =
