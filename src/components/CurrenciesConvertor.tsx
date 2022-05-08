@@ -1,55 +1,27 @@
 import { Autocomplete, Box, Grid, TextField } from "@mui/material";
-import React, { useState } from "react";
+import React from "react";
 
 import { IConvertedCurrency } from "../hooks/useGetCurrenciesQuery";
+import useGetCalculateData from "../hooks/useGetCalculateData";
 
 interface OwnProps {
   currencies: IConvertedCurrency[];
 }
 
-interface CalculatedData {
-  currency?: IConvertedCurrency;
-  value?: string;
-}
-
 const CurrenciesConvertor: React.FC<OwnProps> = (props) => {
   const { currencies } = props;
-
-  const [firstValue, setFirstValue] = useState<string>("");
-  const [secondValue, setSecondValue] = useState<string>("");
-
-  const [firstCurrency, setFirstCurrency] = React.useState<IConvertedCurrency>(
-    currencies[0]
-  );
-  const [secondCurrency, setSecondCurrency] =
-    React.useState<IConvertedCurrency>(currencies[1]);
-
-  const calculateFirstToSecond = (props: CalculatedData) => {
-    if (props.currency) {
-      const num =
-        (Number(firstValue) * props.currency.rate) / secondCurrency.rate;
-      setSecondValue(String(Math.round(num * 100) / 100));
-    }
-
-    if (props.value) {
-      const num =
-        (Number(props.value) * firstCurrency.rate) / secondCurrency.rate;
-      setSecondValue(String(Math.round(num * 100) / 100));
-    }
-  };
-
-  const calculateSecondToFirst = (props: CalculatedData) => {
-    if (props.currency) {
-      const num =
-        (Number(secondValue) * props.currency.rate) / firstCurrency.rate;
-      setFirstValue(String(Math.round(num * 100) / 100));
-    }
-    if (props.value) {
-      const num =
-        (Number(props.value) * secondCurrency.rate) / firstCurrency.rate;
-      setFirstValue(String(Math.round(num * 100) / 100));
-    }
-  };
+  const {
+    calculateFirstToSecond,
+    calculateSecondToFirst,
+    firstValue,
+    setFirstValue,
+    secondValue,
+    setSecondValue,
+    firstCurrency,
+    setFirstCurrency,
+    secondCurrency,
+    setSecondCurrency,
+  } = useGetCalculateData(currencies);
 
   return (
     <Grid container spacing={1}>
